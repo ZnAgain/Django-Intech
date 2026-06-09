@@ -91,7 +91,6 @@ class FazerReservaView(View):
         form = FazerReservaForm(request.POST)
 
         if form.is_valid():
-            # Pega ou cria o leitor baseado no CPF digitado para não duplicar
             leitor, created = Leitor.objects.get_or_create(
                 cpf=form.cleaned_data['cpf'],
                 defaults={
@@ -100,7 +99,6 @@ class FazerReservaView(View):
                 }
             )
             
-            # Cria o registro da reserva na tabela Emprestimo
             Emprestimo.objects.create(
                 livro=livro,
                 leitor=leitor,
@@ -108,7 +106,7 @@ class FazerReservaView(View):
             )
             
             messages.success(request, f'Livro "{livro.nome}" reservado com sucesso!')
-            return redirect('reserva') # Redireciona para a página de reservas
+            return redirect('reserva') 
             
         return render(request, self.template_name, {'livro': livro, 'form': form})
     
