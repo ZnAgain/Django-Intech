@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Biblioteca - Reservas</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+    <a class="navbar-brand" href="/">Biblioteca</a>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link text-dark" href="/">Home</a></li>
+        <li class="nav-item"><a class="nav-link text-dark" href="/livros/">Livros</a></li>
+        <li class="nav-item active"><a class="nav-link text-dark" href="/reserva/">Reserva</a></li>
+        <li class="nav-item"><a class="nav-link text-dark" href="/cidade/">Cidades</a></li>
+        <li class="nav-item"><a class="nav-link text-dark" href="/autor/">Autores</a></li>
+        <li class="nav-item"><a class="nav-link text-dark" href="/editor/">Editoras</a></li>
+        <li class="nav-item"><a class="nav-link text-dark" href="/genero/">Gêneros</a></li>
+        <li class="nav-item"><a class="nav-link text-dark" href="/leitor/">Leitores</a></li>
+        <li class="nav-item"><a class="nav-link text-dark" href="/admin/">Administração</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container mt-5">
+    <h2>Livros Reservados</h2>
+
+    <table class="table table-striped mt-4">
+      <thead>
+        <tr>
+          <th scope="col">Livro</th>
+          <th scope="col">Autor</th>
+          <th scope="col">Leitor (Quem Reservou)</th>
+          <th scope="col">E-mail do Leitor</th>
+          <th scope="col">Data do Empréstimo</th>
+          <th scope="col">Data de Devolução</th>
+          <th scope="col">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for reserva in reservas %}
+          <tr>
+            <td><strong>{{ reserva.livro.nome }}</strong></td>
+            <td>{{ reserva.livro.autor.nome }}</td>
+            <td>{{ reserva.leitor.nome }}</td>
+            <td>{{ reserva.leitor.email }}</td>
+            <td>{{ reserva.data_emprestimo }}</td>
+            <td>{{ reserva.data_devolucao }}</td>
+            <td>
+              <a href="{% url 'cancelar_reserva' reserva.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja cancelar esta reserva?');">
+                Cancelar Reserva
+              </a>
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="7" class="text-center text-muted">Nenhuma reserva encontrada no momento.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
